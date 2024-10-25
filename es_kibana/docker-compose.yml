@@ -1,7 +1,7 @@
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
-    container_name: es-node
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.0
+    container_name: es-node-8.14.0
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -11,15 +11,15 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - esdata-8140:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
     networks:
       - elastic
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.15.2
-    container_name: kibana-node
+    image: docker.elastic.co/kibana/kibana:8.14.0
+    container_name: kibana-node-8.14.0
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
       - xpack.security.enabled=false
@@ -32,10 +32,9 @@ services:
       - elasticsearch
 
 volumes:
-  esdata:
+  esdata-8140:
     driver: local
 
 networks:
   elastic:
     driver: bridge
-
