@@ -1,0 +1,17 @@
+filebeat.inputs:
+  - type: filestream
+    enabled: true
+    paths:
+      - /tmp/filebeat_logs/tomo.log  # Path to the test log file
+    prospector:
+      scanner:
+        fingerprint:
+          enabled: true
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]  # Link to Elasticsearch container
+
+
+# Enable debug logging
+logging.level: debug
+logging.selectors: ["*"]
