@@ -29,6 +29,9 @@ This directory provides a ready-to-use Docker Compose setup for running two sepa
    - Business cluster: [http://localhost:5602](http://localhost:5602)
    - Monitoring cluster: [http://localhost:5601](http://localhost:5601)
    - Monitoring UI: [http://localhost:5601/app/monitoring](http://localhost:5601/app/monitoring)
+  
+   <img width="1052" alt="image" src="https://github.com/user-attachments/assets/2d9fd077-4247-47e9-96e1-4b4e2fcb41e9" />
+
 
 ### Configuration Files
 - `docker-compose.yml`: Defines all services and their relationships (specific to this directory)
