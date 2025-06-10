@@ -8,7 +8,7 @@ metricbeat.modules:
   - module: elasticsearch
     metricsets: ["node", "node_stats", "cluster_stats"]
     period: 10s
-    hosts: ["http://es-business-2:9200"]
+    hosts: ["http://es-business-2:9999"] # Intentionally broken for reproduction
     xpack.enabled: true
 
   - module: elasticsearch
@@ -35,3 +35,8 @@ output.elasticsearch:
   #protocol: "https"
   #username: "elastic"
   #password: "changeme"
+
+# Reproduction Note:
+# Intentionally set es-business-2 port to 9999 to simulate Metricbeat failure.
+# Result: Kibana Stack Monitoring UI still shows the cluster, but only with the healthy node(s).
+# The entire cluster does NOT disappear from the UI due to this error.
