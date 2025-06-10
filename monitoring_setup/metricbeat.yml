@@ -8,6 +8,12 @@ metricbeat.modules:
   - module: elasticsearch
     metricsets: ["node", "node_stats", "cluster_stats"]
     period: 10s
+    hosts: ["http://es-business-2:9200"]
+    xpack.enabled: true
+
+  - module: elasticsearch
+    metricsets: ["node", "node_stats", "cluster_stats"]
+    period: 10s
     hosts: ["http://es-monitor:9200"]
     xpack.enabled: true
 
