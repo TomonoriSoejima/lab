@@ -21,16 +21,25 @@ services:
     networks:
       - elastic
 
-  kibana-business:
-    image: docker.elastic.co/kibana/kibana:8.18.1
-    container_name: kibana-business
+  es-business-2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.18.1
+    container_name: es-business-2
     environment:
-      - ELASTICSEARCH_HOSTS=http://es-business:9200
+      - node.name=es-business-2
+      - cluster.name=business-cluster
+      - discovery.seed_hosts=es-business
+      - cluster.initial_master_nodes=es-business,es-business-2
       - xpack.security.enabled=false
+      - xpack.monitoring.collection.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
     ports:
-      - "5602:5601"
-    depends_on:
-      - es-business
+      - "9202:9200"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata-business-2:/usr/share/elasticsearch/data
     networks:
       - elastic
 
@@ -53,6 +62,19 @@ services:
         hard: -1
     volumes:
       - esdata-monitor:/usr/share/elasticsearch/data
+    networks:
+      - elastic
+
+  kibana-business:
+    image: docker.elastic.co/kibana/kibana:8.18.1
+    container_name: kibana-business
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es-business:9200
+      - xpack.security.enabled=false
+    ports:
+      - "5602:5601"
+    depends_on:
+      - es-business
     networks:
       - elastic
 
@@ -82,28 +104,6 @@ services:
     depends_on:
       - es-business
       - es-monitor
-    networks:
-      - elastic
-
-  es-business-2:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.18.1
-    container_name: es-business-2
-    environment:
-      - node.name=es-business-2
-      - cluster.name=business-cluster
-      - discovery.seed_hosts=es-business
-      - cluster.initial_master_nodes=es-business,es-business-2
-      - xpack.security.enabled=false
-      - xpack.monitoring.collection.enabled=false
-      - ES_JAVA_OPTS=-Xms1g -Xmx1g
-    ports:
-      - "9202:9200"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - esdata-business-2:/usr/share/elasticsearch/data
     networks:
       - elastic
 
